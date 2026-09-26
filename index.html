@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MangaNova</title>
+
+<script src="https://telegram.org/js/telegram-web-app.js"></script>
+
+<style>
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background: #09090d;
+    color: #fff;
+    font-family: Arial, sans-serif;
+}
+
+.app {
+    max-width: 520px;
+    margin: auto;
+    padding: 20px 16px 90px;
+}
+
+/* HEADER */
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 22px;
+}
+
+.logo {
+    font-size: 25px;
+    font-weight: 800;
+}
+
+.logo span {
+    color: #9b6cff;
+}
+
+.profile {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: #17151f;
+    border: 1px solid #292536;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* SEARCH */
+
+.search {
+    width: 100%;
+    height: 48px;
+    border: none;
+    outline: none;
+    border-radius: 15px;
+    background: #15151b;
+    color: white;
+    padding: 0 18px;
+    font-size: 15px;
+    margin-bottom: 25px;
+}
+
+.search::placeholder {
+    color: #777782;
+}
+
+/* HERO */
+
+.hero {
+    background: linear-gradient(135deg, #24173c, #11111a);
+    border-radius: 22px;
+    padding: 24px;
+    min-height: 175px;
+    position: relative;
+    overflow: hidden;
+    margin-bottom: 30px;
+}
+
+.hero::after {
+    content: "";
+    position: absolute;
+    width: 180px;
+    height: 180px;
+    background: #8d5cff;
+    opacity: .15;
+    filter: blur(50px);
+    right: -40px;
+    top: -30px;
+}
+
+.hero small {
+    color: #a99fb9;
+}
+
+.hero h1 {
+    font-size: 25px;
+    margin: 10px 0;
+}
+
+.hero p {
+    color: #aaa5b5;
+    font-size: 13px;
+    max-width: 250px;
+    line-height: 1.5;
+}
+
+.hero button {
+    margin-top: 17px;
+    border: none;
+    background: #925cff;
+    color: white;
+    padding: 10px 17px;
+    border-radius: 10px;
+    font-weight: 600;
+}
+
+/* SECTION */
+
+.section-title {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.section-title h2 {
+    font-size: 19px;
+}
+
+.section-title span {
+    color: #8f70c9;
+    font-size: 13px;
+}
+
+/* POPULAR */
+
+.popular {
+    display: flex;
+    gap: 13px;
+    overflow-x: auto;
+    padding-bottom: 8px;
+}
+
+.popular::-webkit-scrollbar {
+    display: none;
+}
+
+.card {
+    min-width: 125px;
+    background: #121218;
+    border-radius: 15px;
+    overflow: hidden;
+    border: 1px solid #20202a;
+}
+
+.cover {
+    height: 165px;
+    display: flex;
+    align-items: flex-end;
+    padding: 12px;
+    background: linear-gradient(145deg, #29213c, #111117);
+}
+
+.cover.two {
+    background: linear-gradient(145deg, #35242d, #111117);
+}
+
+.cover.three {
+    background: linear-gradient(145deg, #202e3a, #111117);
+}
+
+.cover.four {
+    background: linear-gradient(145deg, #3a3020, #111117);
+}
+
+.cover-title {
+    font-weight: 800;
+    font-size: 17px;
+}
+
+.card-info {
+    padding: 11px;
+}
+
+.card-info h3 {
+    font-size: 14px;
+    margin-bottom: 5px;
+}
+
+.card-info p {
+    font-size: 11px;
+    color: #777783;
+}
+
+/* NEW MANGA */
+
+.manga-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.manga-item {
+    background: #121218;
+    border: 1px solid #20202a;
+    border-radius: 15px;
+    padding: 13px;
+    display: flex;
+    align-items: center;
+}
+
+.small-cover {
+    width: 55px;
+    height: 70px;
+    border-radius: 9px;
+    background: linear-gradient(145deg, #302348, #16131e);
+    margin-right: 13px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 11px;
+    font-weight: bold;
+    text-align: center;
+}
+
+.manga-info {
+    flex: 1;
+}
+
+.manga-info h3 {
+    font-size: 14px;
+    margin-bottom: 7px;
+}
+
+.manga-info p {
+    color: #777783;
+    font-size: 11px;
+}
+
+.heart {
+    width: 35px;
+    height: 35px;
+    border-radius: 10px;
+    border: 1px solid #292936;
+    background: #17171f;
+    color: #aaa;
+}
+
+/* BOTTOM NAV */
+
+.bottom-nav {
+    position: fixed;
+    bottom: 12px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: calc(100% - 25px);
+    max-width: 495px;
+    background: rgba(20,20,27,.94);
+    backdrop-filter: blur(15px);
+    border: 1px solid #292933;
+    border-radius: 18px;
+    height: 65px;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.nav-item {
+    color: #777783;
+    font-size: 11px;
+    text-align: center;
+}
+
+.nav-item.active {
+    color: #9b6cff;
+}
+
+.nav-icon {
+    font-size: 19px;
+    margin-bottom: 3px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="app">
+
+    <div class="header">
+        <div class="logo">Manga<span>Nova</span></div>
+
+        <div class="profile">N</div>
+    </div>
+
+    <input
+        class="search"
+        id="search"
+        type="text"
+        placeholder="Manga qidirish..."
+    >
+
+    <div class="hero">
+        <small>BUGUNGI TAVSIYA</small>
+
+        <h1>Solo Leveling</h1>
+
+        <p>
+            Eng mashhur mangalarni qulay va zamonaviy interfeysda o‘qing.
+        </p>
+
+        <button>O‘qishni boshlash</button>
+    </div>
+
+    <div class="section-title">
+        <h2>Mashhur</h2>
+        <span>Barchasi</span>
+    </div>
+
+    <div class="popular">
+
+        <div class="card">
+            <div class="cover">
+                <div class="cover-title">SOLO<br>LEVELING</div>
+            </div>
+
+            <div class="card-info">
+                <h3>Solo Leveling</h3>
+                <p>Action • Fantasy</p>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="cover two">
+                <div class="cover-title">ONE<br>PIECE</div>
+            </div>
+
+            <div class="card-info">
+                <h3>One Piece</h3>
+                <p>Adventure • Action</p>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="cover three">
+                <div class="cover-title">JUJUTSU<br>KAISEN</div>
+            </div>
+
+            <div class="card-info">
+                <h3>Jujutsu Kaisen</h3>
+                <p>Action • Fantasy</p>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="cover four">
+                <div class="cover-title">NARUTO</div>
+            </div>
+
+            <div class="card-info">
+                <h3>Naruto</h3>
+                <p>Action • Adventure</p>
+            </div>
+        </div>
+
+    </div>
+
+    <br>
+
+    <div class="section-title">
+        <h2>Yangi qo‘shilgan</h2>
+        <span>Ko‘proq</span>
+    </div>
+
+    <div class="manga-list">
+
+        <div class="manga-item">
+            <div class="small-cover">MANGA</div>
+
+            <div class="manga-info">
+                <h3>The Beginning After The End</h3>
+                <p>Fantasy • 12 bob</p>
+            </div>
+
+            <button class="heart">♡</button>
+        </div>
+
+        <div class="manga-item">
+            <div class="small-cover">MANGA</div>
+
+            <div class="manga-info">
+                <h3>Omniscient Reader</h3>
+                <p>Action • 8 bob</p>
+            </div>
+
+            <button class="heart">♡</button>
+        </div>
+
+        <div class="manga-item">
+            <div class="small-cover">MANGA</div>
+
+            <div class="manga-info">
+                <h3>Wind Breaker</h3>
+                <p>Drama • 15 bob</p>
+            </div>
+
+            <button class="heart">♡</button>
+        </div>
+
+    </div>
+
+</div>
+
+<div class="bottom-nav">
+
+    <div class="nav-item active">
+        <div class="nav-icon">⌂</div>
+        Bosh sahifa
+    </div>
+
+    <div class="nav-item">
+        <div class="nav-icon">⌕</div>
+        Qidiruv
+    </div>
+
+    <div class="nav-item">
+        <div class="nav-icon">♡</div>
+        Sevimlilar
+    </div>
+
+    <div class="nav-item">
+        <div class="nav-icon">○</div>
+        Profil
+    </div>
+
+</div>
+
+<script>
+
+if (window.Telegram && Telegram.WebApp) {
+    Telegram.WebApp.ready();
+    Telegram.WebApp.expand();
+}
+
+document.querySelectorAll(".heart").forEach(button => {
+
+    button.addEventListener("click", () => {
+
+        if (button.innerText === "♡") {
+            button.innerText = "♥";
+            button.style.color = "#9b6cff";
+        } else {
+            button.innerText = "♡";
+            button.style.color = "#aaa";
+        }
+
+    });
+
+});
+
+</script>
+
+</body>
+</html>,
